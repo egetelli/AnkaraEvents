@@ -1,28 +1,46 @@
 ﻿using AnkaraEvents.Data;
+using AnkaraEvents.Interfaces;
 using AnkaraEvents.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace AnkaraEvents.Controllers
 {
     public class EventController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IEventRepository _eventRepository;
 
-        public EventController(ApplicationDbContext context)
+        public EventController(ApplicationDbContext context, IEventRepository eventRepository)
         {
-            _context = context;
+            _eventRepository = eventRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Event> events = _context.Events.ToList();
+            IEnumerable<Event> events = await _eventRepository.GetAll();
             return View(events);
         }
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            Event oneevent = _context.Events.Include(a => a.EventAddress).FirstOrDefault(e => e.Id == id);
+            Event oneevent = await _eventRepository.GetByIdAsync(id);
             return View(oneevent);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Event oneevent)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(oneevent);
+            }
+            _eventRepository.Add(oneevent);
+            return RedirectToAction("Index");
         }
     }
 }
