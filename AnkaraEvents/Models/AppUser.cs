@@ -1,14 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AnkaraEvents.Models
 {
-    public class AppUser
+    public class AppUser : IdentityUser
     {
-        [Key]
-        public int UserId { get; set; }
+        
         public int EventId { get; set; }
         public bool IsAttending { get; set; }
-        public Address Address { get; set; }
+        [ForeignKey("Address")]
+        public int AddressId { get; set; }
+        public Address? EventAddress { get; set; }
         public ICollection<Event> Events { get; set; }
 
     }
