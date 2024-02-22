@@ -1,6 +1,7 @@
 ﻿using AnkaraEvents.Data;
 using AnkaraEvents.Interfaces;
 using AnkaraEvents.Models;
+using AnkaraEvents.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -10,10 +11,12 @@ namespace AnkaraEvents.Controllers
     public class EventController : Controller
     {
         private readonly IEventRepository _eventRepository;
+        private readonly IPhotoService _photoService;
 
-        public EventController(ApplicationDbContext context, IEventRepository eventRepository)
+        public EventController(IEventRepository eventRepository, IPhotoService photoService)
         {
             _eventRepository = eventRepository;
+            _photoService = photoService;
         }
 
         public async Task<IActionResult> Index()
@@ -33,14 +36,35 @@ namespace AnkaraEvents.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Event oneevent)
+        public async Task<IActionResult> Create(CreateEventViewModel eventVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(oneevent);
+                var result = await _photoService.AddPhotoAsync(eventVM.Image);
+
+                var _event = new Event
+                {
+                    EventName = eventVM.EventName,
+                    Description = eventVM.Description,
+                    Image = result.Url.ToString(),
+                    Date = eventVM.Date,
+                    EventAddress = new Address
+                    {
+                        City = eventVM.EventAddress.City,
+                        Street = eventVM.EventAddress.Street,
+                        District = eventVM.EventAddress.District
+                    }
+                    
+                };
+                _eventRepository.Add(_event);
+                return RedirectToAction("Index");
             }
-            _eventRepository.Add(oneevent);
-            return RedirectToAction("Index");
+            else
+            {
+                ModelState.AddModelError("", "Photo upload failed");
+            }
+            return View(eventVM);
+           
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿@using AnkaraEvents.Data
-@model Event
+@using AnkaraEvents.ViewModels
+@model CreateEventViewModel
 
 
-<form method="post" asp-action="Create">
+<form method="post" asp-action="Create" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="EventName">EventName</label>
         <input asp-for="EventName" class="form-control" placeholder="Enter event name">
@@ -11,19 +12,14 @@
     <div class="form-group">
         <label asp-for="Description">Description</label>
         <input asp-for="Description" class="form-control" placeholder="Enter event description">
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-        <div class="form-group">
-        <label asp-for="Image">Image</label>
-        <input asp-for="Image" class="form-control" placeholder="Image">
-        <span asp-validation-for="Image" class="text-danger"></span>
-    </div>
+        <span asp-validation-for="Description" class="text-danger"></span>    </div>
+
     <div class="form-group">
-        <label asp-for="Category">Category</label>
-        <select asp-for="Category" asp-items="@Html.GetEnumSelectList<EventCategory>()" class="form-control form-control-lg">
+        <label asp-for="EventCategory">Category</label>
+        <select asp-for="EventCategory" asp-items="@Html.GetEnumSelectList<EventCategory>()" class="form-control form-control-lg">
             <option>--Select--</option>
         </select>
-        <span asp-validation-for="Category" class="text-danger"></span>
+        <span asp-validation-for="EventCategory" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="EventAddress.Street">Street</label>
@@ -44,6 +40,11 @@
         <label asp-for="Date">Date</label>
         <input asp-for="Date" type="date" class="form-control" placeholder="Enter event date">
         <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Image">Image</label>
+        <input asp-for="Image"  type="file" class="form-control" placeholder="Image">
+        <span asp-validation-for="Image" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
