@@ -36,6 +36,11 @@ namespace AnkaraEvents.Repository
             return await _context.Events.Include(i => i.EventAddress).FirstOrDefaultAsync(i => i.Id == id);
         }
 
+        public async Task<Event> GetByIdAsyncNoTracking(int id)
+        {
+            return await _context.Events.Include(i => i.EventAddress).AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+        }
+
         public async Task<IEnumerable<Event>> GetEventByCity(string city)
         {
             return await _context.Events.Where(c => c.EventAddress.City.Contains(city)).ToListAsync();

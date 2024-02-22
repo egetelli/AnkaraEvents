@@ -1,0 +1,60 @@
+﻿@using AnkaraEvents.Data
+@model Event
+
+
+
+<h1>Are you sure you want to delete this club?</h1>
+
+<form method="post" asp-action="Delete" enctype="multipart/form-data">
+    <input type="hidden" value="AddressId" id="AddressId" />
+    <div class="form-group">
+        <label asp-for="EventName">EventName</label>
+        <input asp-for="EventName" class="form-control" placeholder="EventName">
+        <span asp-validation-for="EventName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description">Description</label>
+        <input asp-for="Description" class="form-control" placeholder="Description">
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Category">Event Category</label>
+        <select asp-for="Category" asp-items="@Html.GetEnumSelectList<EventCategory>()" class="form-control">
+            <option selected="selected" value="">--Select--</option>
+        </select>
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EventAddress.Street">Street</label>
+        <input asp-for="EventAddress.Street" class="form-control" placeholder="Street">
+        <span asp-validation-for="EventAddress.Street" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EventAddress.City">City</label>
+        <input asp-for="EventAddress.City" class="form-control" placeholder="City">
+        <span asp-validation-for="EventAddress.Street" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EventAddress.District">State</label>
+        <input asp-for="EventAddress.District" class="form-control" placeholder="District">
+        <span asp-validation-for="EventAddress.District" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Date">Date</label>
+        <input asp-for="Date" type="date" class="form-control" placeholder="Date">
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Image">Image</label>
+        <input asp-for="Image" type="file" class="form-control" placeholder="Image">
+        <span asp-validation-for="Image" class="text-danger"></span>
+
+    </div>
+
+</form>
+<div class="form-group">
+    <form action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Confirm" class="btn btn-danger float-right mt-3" />
+    </form>
+</div>
