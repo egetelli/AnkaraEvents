@@ -10,7 +10,7 @@ namespace AnkaraEvents.Models
         public int EventId { get; set; }
         public bool IsAttending { get; set; }
         [ForeignKey("Address")]
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
         public Address? EventAddress { get; set; }
         public ICollection<Event> Events { get; set; }
 
