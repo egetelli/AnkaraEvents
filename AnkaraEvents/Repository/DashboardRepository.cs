@@ -17,8 +17,8 @@ namespace AnkaraEvents.Repository
 
         public  async Task<List<Event>> GetAllUserEvents()
         {
-            var curUser = _httpContextAccessor.HttpContext?.User;
-            var userEvents = _context.Events.Where(r => r.AppUser.Id == curUser.ToString());
+            var curUser = _httpContextAccessor.HttpContext?.User.GetUserId();
+            var userEvents = _context.Events.Where(r => r.AppUser.Id == curUser);
             return userEvents.ToList();
         }
     }

@@ -1,5 +1,38 @@
 ﻿@model IEnumerable<Event>
 
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 1em;
+    }
+
+    section {
+        max-width: 800px;
+        margin: 2em auto;
+        padding: 1em;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 1em;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+</style>
 <div class="album py-5 bg-light">
     <div class="container">
 
@@ -31,4 +64,7 @@
             }
         </div>
     </div>
+    <footer>
+        <p>&copy; 2024 My MVC Website</p>
+    </footer>
 </div>

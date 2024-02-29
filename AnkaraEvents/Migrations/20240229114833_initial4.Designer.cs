@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnkaraEvents.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240228123233_NullAddressFix")]
-    partial class NullAddressFix
+    [Migration("20240229114833_initial4")]
+    partial class initial4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

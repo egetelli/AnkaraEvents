@@ -12,11 +12,13 @@ namespace AnkaraEvents.Controllers
     {
         private readonly IEventRepository _eventRepository;
         private readonly IPhotoService _photoService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EventController(IEventRepository eventRepository, IPhotoService photoService)
+        public EventController(IEventRepository eventRepository, IPhotoService photoService, IHttpContextAccessor httpContextAccessor)
         {
             _eventRepository = eventRepository;
             _photoService = photoService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IActionResult> Index()
@@ -32,7 +34,9 @@ namespace AnkaraEvents.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            var curUserId = _httpContextAccessor.HttpContext.User.GetUserId();
+            var createEventViewModel = new CreateEventViewModel { AppUserId = curUserId };
+            return View(createEventViewModel);
         }
 
         [HttpPost]
@@ -47,6 +51,7 @@ namespace AnkaraEvents.Controllers
                     EventName = eventVM.EventName,
                     Description = eventVM.Description,
                     Image = result.Url.ToString(),
+                    AppUserId = eventVM.AppUserId,
                     Date = eventVM.Date,
                     EventAddress = new Address
                     {

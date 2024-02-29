@@ -12,5 +12,6 @@ namespace AnkaraEvents.ViewModels
         public DateTime Date { get; set; }
         public IFormFile Image { get; set; }
         public EventCategory EventCategory { get; set; }
+        public string AppUserId { get; set; }
     }
 }
